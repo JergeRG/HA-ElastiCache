@@ -2,6 +2,16 @@
 
 Este módulo crea un clúster de instancias ElastiCache en AWS, que incluye la creación de un grupo de parámetros ElastiCache y un grupo de subnets ElastiCache.
 
+- [Características](#características)
+- [Uso](#uso)
+- [Variables de Entrada](#variables-de-entrada)
+- [Variables de Salida](#variables-de-salida)
+- [Recursos Creados](#recursos-creados)
+- [Dependencias](#dependencias)
+- [Pruebas](#pruebas)
+- [Configuración del Pre-Commit Hook](#configuración-del-pre-commit-hook)
+- [Consideraciones](#consideraciones)
+
 ## Características
 
 -  Permite definir un conjunto de parámetros específicos a través de `parameter_group_name` para especificar el comportamiento del clúster de ElastiCache.
@@ -18,11 +28,18 @@ Este módulo crea un clúster de instancias ElastiCache en AWS, que incluye la c
 
 ```hcl
 module "elasticache" {
-  source = "<ruta al módulo>"
-
-  subnet_ids             = ["subnet-0a3507a5ad2c5c8c3", "subnet-0b12a8d5566830e67"]
-  security_group_ids     = ["sg-0a3df2b67a3fa5a2a"]
-  parameter_group_family = "memcached1.5"
+  source                   = "<ruta al módulo>"
+  subnet_ids               = {
+    snet-eg-1 = "subnet-0a3507a5ad2c5c8c3"
+    snet-eg-2 = "subnet-0b12a8d5566830e67"
+    ...
+  }
+  security_group_ids       = {
+    "sg-eg-1" = "sg-0a3df2b67a3fa5a2a"
+    "sg-eg-2" = "sg-454sdsfs3g145gdgs"
+    ...
+  }
+  parameter_group_family   = "memcached1.5"
   parameter_group_description = "Grupo de parametros para memcached"
   parameter_group_parameters = {
     "chunk_size_growth_factor" = {
@@ -35,16 +52,14 @@ module "elasticache" {
     }
     ...
   }
-
-  engine             = "memcached"
-  engine_version     = "1.5.16"
-  node_type          = "cache.m4.large"
-  num_cache_nodes    = 1
-  parameter_group_name = "default.memcached1.5"
-  az_mode            = "cross-az"
-  partial_name       = "redis-example"
-  environment        = "prod"
-  
+  engine                   = "memcached"
+  engine_version           = "1.5.16"
+  node_type                = "cache.m4.large"
+  num_cache_nodes          = 1
+  parameter_group_name     = "default.memcached1.5"
+  az_mode                  = "cross-az"
+  partial_name             = "redis-example"
+  environment              = "prod"
   tags = {
     "Environment" = "Production"
     "Created_by"  = "HA"
@@ -114,6 +129,43 @@ Este módulo depende de los siguientes recursos:
 - Subnets existentes especificadas por `subnet_id`.
 
 - Grupos de seguridad existentes especificados por `security_groups_ids`.
+
+## Pruebas
+
+Este módulo incorpora pruebas unitarias desarrolladas con `Terratest`, utilizando el marco de pruebas `Go`. Las pruebas se encuentran en el directorio `test`. Para su ejecución, deben seguirse los siguientes pasos:
+
+1. Hay que asegurarse de que la versión `>=1.19` de `Go` esté instalada en la máquina donde se llevarán a cabo las pruebas.
+
+2. Se debe de navegar hasta el directorio `test` dentro del repositorio.
+    ```bash
+    cd test
+3. Se debe de ejecutar el siguiente comando:
+    ```bash
+    go test -v -timeout 10m
+    ```
+    La opción `-v` ofrece una salida detallada, útil para comprender qué ocurre durante la prueba. La opción `-timeout`  define la duración máxima que puede tomar la prueba (ejemplo, `10m` para 10 minutos o `1h` para una hora).
+
+    #### Nota
+    Deben configurarse las credenciales de AWS correspondientes, ya que la prueba implica la creación de infraestructura real en una cuenta de AWS, lo cual podría incurrir en cargos.
+
+En caso de requerir cambios en los valores de la prueba, deben modificarse los siguientes archivos:
+
+- `elastic_test.tf` - Ruta: `/test/unit/elastic_test.tf`.
+- `elastic_test.go` - Ruta: `/test/elastic_test.go`.
+
+Para más información sobre la configuración y modificación de las pruebas, consultar la [Documentación de Terratest](https://terratest.gruntwork.io/docs/). 
+
+## Configuración del Pre-Commit Hook
+
+Este proyecto emplea un pre-commit hook on el objetivo de asegurar que los archivos de Terraform sean correctamente formateados y validados antes de cada commit. Para su configuración, deben seguirse estos pasos:
+
+1. Hay que asegurarse de que `Terraform` esté instalado en la máquina donde se utilizará el `pre-commit`, ya que el script emplea `terraform fmt` y `terraform validate` para las validaciones.
+
+2. Se debe de copiar el archivo `pre-commit` del directorio `hooks` a `.git/hooks`:
+   ```bash
+   copy hooks\pre-commit .git\hooks\pre-commit
+Al realizar un commit, el pre-commit hook verificará automáticamente los archivos de Terraform en espera de commit, los formateará con `terraform fmt`, y los validará con `terraform validate`. Si alguna de estas verificaciones falla, se detendrá el commit, permitiendo corregir los errores antes de continuar.
+Cuando realice un commit, el pre-commit hook verificará automáticamente los archivos de Terraform en espera de commit, los formateará con `terraform fmt`, y los validará con `terraform validate`. Si alguna de estas verificaciones falla, el commit se detendrá, permitiéndole corregir los errores antes de continuar.
 
 ## Consideraciones
 
