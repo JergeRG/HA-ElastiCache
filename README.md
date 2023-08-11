@@ -69,9 +69,9 @@ El módulo tiene las siguientes variables de entrada:
 
 - `parameter_group_parameters` - Mapa de parámetros a asignar al grupo de parámetros de ElastiCache.  Cada parámetro está representado por un objeto con los siguientes atributos:
 
-  - `name` - 
+  - `name` -  El nombre del parámetro. Es un identificador único dentro del grupo de parámetros.
     
-  - `value` - 
+  - `value` - El valor que se asignará al parámetro.
 
 - `engine` - Motor de la base de datos que se utilizará en la creación del clúster de ElastiCache (memcached/redis).
 
@@ -93,9 +93,9 @@ El módulo tiene las siguientes variables de entrada:
 
 El módulo tiene las siguientes variables de salida:
 
-- elasticache_cluster_id: Identificador del clúster de ElastiCache que se creó.
+- elasticache_cluster_id - Identificador del clúster de ElastiCache que se creó.
 
-- elasticache_cluster_endpoint: Endpoint de del clúster ElastiCache creado.
+- elasticache_cluster_endpoint - Endpoint de del clúster ElastiCache creado.
 
 ## Recursos creados
 
