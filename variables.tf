@@ -1,11 +1,11 @@
 variable "subnet_ids" {
   description = "El conjunto de identificadores de las subnets donde la instancia de ElastiCache será creada."
-  type        = set(string)
+  type        = map(string)
 }
 
 variable "security_group_ids" {
   description = "El conjunto de identificadores de los grupos de seguridad que se asignarán a la instancia de ElastiCache."
-  type        = set(string)
+  type        = map(string)
 }
 
 variable "parameter_group_family" {

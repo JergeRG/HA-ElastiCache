@@ -57,9 +57,9 @@ module "elasticache" {
 
 El módulo tiene las siguientes variables de entrada:
 
-- `subnet_ids` - Conjunto de identificadores de las subnets donde el clúster de ElastiCache será creado.
+- `subnet_ids` - Mapa de identificadores de las subnets donde el clúster de ElastiCache será creado. Cada elemento del mapa es identificado por el nombre de la subnet. 
 
-- `security_group_ids` - Conjunto de identificadores de los grupos de seguridad que se asignarán al clúster de ElastiCache.
+- `security_group_ids` - Mapa de identificadores de los grupos de seguridad que se asignarán al clúster de ElastiCache. Cada elemento del mapa es identificado por el nombre del grupo se seguridad.
 
 - `parameter_group_name` - Nombre del grupo de parámetros para el clúster de ElastiCache.
 
