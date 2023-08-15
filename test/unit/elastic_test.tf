@@ -99,7 +99,6 @@ resource "aws_vpc" "vpc_test" {
   cidr_block           = local.vpc_cidr_block
   enable_dns_support   = true
   enable_dns_hostnames = true
-  # Aquí puedes agregar más configuración si es necesario
 }
 
 # Recurso para crear una subnet para la prueba
@@ -107,7 +106,6 @@ resource "aws_subnet" "subnet_test_1" {
   vpc_id            = aws_vpc.vpc_test.id
   cidr_block        = local.subnet1_cidr_block
   availability_zone = local.subnet1_availability_zone
-  # Aquí puedes agregar más configuración si es necesario
 }
 
 # Recurso para crear una subnet para la prueba
@@ -115,7 +113,6 @@ resource "aws_subnet" "subnet_test_2" {
   vpc_id            = aws_vpc.vpc_test.id
   cidr_block        = local.subnet2_cidr_block
   availability_zone = local.subnet2_availability_zone
-  # Aquí puedes agregar más configuración si es necesario
 }
 
 # Recurso para crear un grupo de seguridad para la prueba que permite tráfico HTTP
@@ -125,15 +122,14 @@ resource "aws_security_group" "security_group_test_1" {
     from_port   = 80
     to_port     = 80
     protocol    = "tcp"
-    cidr_blocks = ["0.0.0.0/0"]
+    cidr_blocks = ["10.0.0.0/16"]
   }
   egress {
     from_port   = 0
     to_port     = 0
     protocol    = "-1"
-    cidr_blocks = ["0.0.0.0/0"]
+    cidr_blocks = ["10.0.0.0/16"]
   }
-  # Aquí puedes agregar más configuración si es necesario
 }
 
 # Recurso para crear un grupo de seguridad para la prueba que permite tráfico SSH
@@ -143,15 +139,14 @@ resource "aws_security_group" "security_group_test_2" {
     from_port   = 22
     to_port     = 22
     protocol    = "tcp"
-    cidr_blocks = ["0.0.0.0/0"]
+    cidr_blocks = ["10.0.0.0/16"]
   }
   egress {
     from_port   = 0
     to_port     = 0
     protocol    = "-1"
-    cidr_blocks = ["0.0.0.0/0"]
+    cidr_blocks = ["10.0.0.0/16"]
   }
-  # Aquí puedes agregar más configuración si es necesario
 }
 
 # Modulo para configurar ElastiCache
