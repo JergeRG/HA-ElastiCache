@@ -110,7 +110,7 @@ El módulo tiene las siguientes variables de salida:
 
 - elasticache_cluster_id - Identificador del clúster de ElastiCache que se creó.
 
-- elasticache_cluster_endpoint - Endpoint de del clúster ElastiCache creado.
+- elasticache_cluster_endpoint - Endpoint del clúster ElastiCache creado.
 
 ## Recursos creados
 
@@ -141,7 +141,7 @@ Este módulo incorpora pruebas unitarias desarrolladas con `Terratest`, utilizan
     cd test
 3. Se debe de ejecutar el siguiente comando:
     ```bash
-    go test -v -timeout 10m
+    go test -v -timeout 20m
     ```
     La opción `-v` ofrece una salida detallada, útil para comprender qué ocurre durante la prueba. La opción `-timeout`  define la duración máxima que puede tomar la prueba (ejemplo, `10m` para 10 minutos o `1h` para una hora).
 
@@ -169,4 +169,10 @@ Cuando realice un commit, el pre-commit hook verificará automáticamente los ar
 
 ## Consideraciones
 
-Ninguna.
+- Se deben especificar por lo menos dos subnets en diferentes zonas de disponibilidad para la creación del grupo de subnets.
+
+- El grupo de parámetros debe definirse cuidadosamente y debe alinearse al motor de la instancia, ya que estos parámetros afectarán la configuración y el rendimiento de la instancia ElastiCache.
+
+- La elección del motor es esencial. Las opciones disponibles son `memcached` y `redis`, y cada una tiene características y comportamientos específicos.
+
+- El tipo de nodo  y el número de nodos de caché determinarán el rendimiento y los costos asociados con la instancia.
