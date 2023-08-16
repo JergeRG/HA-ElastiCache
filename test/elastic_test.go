@@ -13,9 +13,10 @@ import (
 func TestElastiCacheResources(t *testing.T) {
 	t.Parallel() // Permite que la prueba se ejecute en paralelo con otras pruebas
 
-	// Configuración de las opciones de Terraform para el directorio que contiene la configuración de Terraform
+	// Configuración de las opciones de Terraform para el directorio que contiene la configuración de Terraform y los valores para la prueba
 	options := &terraform.Options{
 		TerraformDir: "unit",
+		VarFiles:     []string{"elastic_test.tfvars"},
 	}
 
 	// Limpia los recursos creados por Terraform después de que la prueba haya terminado

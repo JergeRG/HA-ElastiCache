@@ -150,8 +150,15 @@ Este módulo incorpora pruebas unitarias desarrolladas con `Terratest`, utilizan
 
 En caso de requerir cambios en los valores de la prueba, deben modificarse los siguientes archivos:
 
-- `elastic_test.tf` - Ruta: `/test/unit/elastic_test.tf`.
-- `elastic_test.go` - Ruta: `/test/elastic_test.go`.
+- `test/elastic_test.go` - Este archivo debe ser modificado si se necesitan cambios en las validaciones realizadas sobre la configuración.
+
+- `test/unit/elastic_test.tf` - Este archivo debe ser modificado si es necesario hacer cambios en la creación de los recursos para la prueba.
+
+- `test/unit/elastic_test_variables.tf` - Si es necesario hacer cambios en las variables de entrada que se toman en cuenta para la prueba, se debe ajustar este archivo.
+
+- `test/unit/elastic_test.tfvars` - Este archivo debe ser modificado si se requieren ajustes en los valores de las variables usadas para la prueba.
+
+- `test/unit/elastic_test_outputs.tf` - Si es necesario hacer cambios en las variables de salida que se toman en cuenta para la prueba, se debe ajustar este archivo. Al agregar o eliminar variables, es imprescindible realizar las modificaciones correspondientes en el archivo `test/elastic_test.go`.
 
 Para más información sobre la configuración y modificación de las pruebas, consultar la [Documentación de Terratest](https://terratest.gruntwork.io/docs/). 
 
